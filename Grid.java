@@ -70,6 +70,12 @@ public class Grid {
 	public Snake getSnake() {
 		return snake;
 	}
-	
+
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
 	
 }

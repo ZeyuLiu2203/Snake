@@ -1,6 +1,7 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Snake {
+public class Snake implements Iterable<Node>{
 	private LinkedList<Node> body = new LinkedList<>();
 	
 	public Node eat(Node food){
@@ -42,4 +43,16 @@ public class Snake {
 	private boolean isNeighbor(Node a, Node b) {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY()) == 1;
     }
+
+	public LinkedList<Node> getBody() {
+		return body;
+	}
+
+	@Override
+	public Iterator<Node> iterator() {
+		
+		return body.iterator();
+	}
+
+	
 }
