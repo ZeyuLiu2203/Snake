@@ -1,2 +1,2 @@
 # Snake
-recreate of favourite game in my childhood
+recreation of the favourite game in my childhood
