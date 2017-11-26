@@ -16,7 +16,7 @@ public enum Direction {
     }
 
 	public boolean compatibleWith(Direction newDirection) {
-		if(Math.abs(this.directionCode() - newDirection.directionCode()) == 1){
+		if(Math.abs(this.ordinal() - newDirection.ordinal()) !=2 ){
 			return true;
 		}
 		return false;

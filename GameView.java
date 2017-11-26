@@ -9,7 +9,8 @@ public class GameView {
     private JPanel canvas;
 
     public void init() {
-        canvas = new JPanel() {
+        canvas = new JPanel() 
+        {
             @Override
             public void paintComponent(Graphics graphics) {
                 drawBg(graphics);
@@ -59,11 +60,14 @@ public class GameView {
      */
     public void drawSnake(Graphics graphics, Snake snake) {
         Color c = Color.red;
-        java.util.Iterator<Node> it = snake.getBody().iterator();
+          java.util.Iterator<Node> it = snake.getBody().iterator();
         while (it.hasNext()) {
             Node n = it.next();
             drawSquare(graphics, n, c);
         }
+//        for(Node n: snake){
+//        	drawSquare(graphics, n, c);
+//        }
     }
 
     /**

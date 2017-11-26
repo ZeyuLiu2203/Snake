@@ -4,17 +4,19 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class SnakeApp {
-	public void init(){
+public class SnakeApp implements Runnable{
+	@Override
+	public void run(){
 		
 		Grid grid = new Grid(Config.GRID_WIDTH, Config.GRID_HEIGHT);
 		JFrame window = new JFrame("Zeyu's snake game");
-		Container contentPane = window.getContentPane();
 		
 		GameView gameView = new GameView(grid);
         gameView.init();
-        gameView.getCanvas().setPreferredSize(new Dimension(Config.GRID_WIDTH, Config.GRID_HEIGHT));
-
+        int w = Config.GRID_WIDTH * Config.NODE_SIZE;
+        int h = Config.GRID_HEIGHT * Config.NODE_SIZE;
+        gameView.getCanvas().setPreferredSize(new Dimension(w, h));
+        Container contentPane = window.getContentPane();
         contentPane.add(gameView.getCanvas(), BorderLayout.CENTER);
 		
 		
@@ -33,6 +35,7 @@ public class SnakeApp {
 	}
 	public static void main(String[] args) {
         SnakeApp snakeApp = new SnakeApp();
-        snakeApp.init();
+        snakeApp.run();
     }
+	
 }

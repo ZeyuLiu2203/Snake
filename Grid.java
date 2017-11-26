@@ -14,49 +14,112 @@ public class Grid {
 		this.height = height;
 		status = new boolean[width][height];
 
-		snake = initSnake(width,height);
-		food = createFood(width,height);
+		snake = initSnake();
+		food = createFood();
 	}
 	
-	private Snake initSnake(int width, int height){
-		//length of initial  snake is 1/3 of width of grid
+	private Snake initSnake(){
 		snake = new Snake();
-		// 设置Snake的Body
-		for(int i = 0; i<width/3;i++){
+		for(int i = 0; i<10;i++){
 			snake.addTail(new Node(width/2+i,height/2));
 			status[width/2+i][height/2] = true;
 		}
 		return snake;
 	}
 	
-	private Node createFood(int width,int height){
+	private Node createFood(){
 		int x,y;
 		Random random = new Random();
-		x = random.nextInt(width);
-		y = random.nextInt(height);
-		while(status[x][y]){
-			x = random.nextInt(width);
-			y = random.nextInt(height);
-		}
+		x = random.nextInt(width-1);
+		y = random.nextInt(height-1);
+//		while(status[x][y]){
+//			x = random.nextInt(width);
+//			y = random.nextInt(height);
+//		}
 		Node food = new Node(x,y);
+		System.out.println(Integer.toString(food.getX()) + Integer.toString(food.getY()));
 		return food;
 	}
 	public boolean nextRound(){
+		System.out.println("2");
 		Node nextMove = snake.move(snakeDirection);
-		if((snake.getHead().getX() != width || snake.getHead().getX() != 0) && !status[snake.getHead().getX()][snake.getHead().getY()] && (snake.getHead().getY() != height || snake.getHead().getY() != 0)){
-			if(snake.getHead().getX() == food.getX() && snake.getHead().getY() == food.getX()){
-				status[snake.getHead().getX()][snake.getHead().getY()] = true;
-				snake.addTail(nextMove);
-				food = createFood(width,height);
-				return true;
-			}
-			else{
-				status[nextMove.getX()][nextMove.getY()] = false;
-				return true;
-			}
+		
+		if(isBoundary(snake.getHead())){
+			return false;
 		}
-		return false;
+		else{
+			if(isBody()){
+				return false;
+			}
+			else if(isFood(food)){
+					System.out.println("???");
+					snake.addTail(nextMove);
+					food = createFood();
+				}
+			else{
+					status[snake.getHead().getX()][snake.getHead().getY()] = true;
+					status[nextMove.getX()][nextMove.getY()] = false;
+				}
+			return true;
+		}
+
+		
 	}
+	private boolean isFood(Node n){
+		int headX = snake.getHead().getX();
+		int headY = snake.getHead().getY();
+		int x = n.getX();
+		int y = n.getY();
+		if(headX == x && snakeDirection == Direction.LEFT && headY == y){
+			return true;
+		}
+		else if(x == headX && snakeDirection == Direction.RIGHT && headY == y){
+			return true;
+		}
+		else if(headY == y && snakeDirection == Direction.DOWN && headX == x){
+			return true;
+		}
+		else if(y == headY && snakeDirection == Direction.UP && headX == x){
+			return true;
+		}
+		else{return false;}
+	}
+	
+	private boolean isBoundary(Node n){
+		int x = n.getX();
+		int y = n.getY();
+		if(x == -1 && snakeDirection == Direction.LEFT){
+			return true;
+		}
+		else if(x == width && snakeDirection == Direction.RIGHT){
+			return true;
+		}
+		else if(y == height && snakeDirection == Direction.DOWN){
+			return true;
+		}
+		else if(y == -1 && snakeDirection == Direction.UP){
+			return true;
+		}
+		else{return false;}
+	}
+	private boolean isBody(){
+		int headX = snake.getHead().getX();
+		int headY = snake.getHead().getY();
+		if(status[headX][headY] && snakeDirection == Direction.LEFT){
+			return true;
+		}
+		else if(status[headX][headY] && snakeDirection == Direction.RIGHT ){
+			return true;
+		}
+		else if(status[headX][headY] && snakeDirection == Direction.DOWN ){
+			return true;
+		}
+		else if(status[headX][headY] && snakeDirection == Direction.UP){
+			return true;
+		}
+		else{return false;}
+	}
+	
 	public void changeDirection(Direction newDirection) {
 	    if (snakeDirection.compatibleWith(newDirection)) {
 	        snakeDirection = newDirection;

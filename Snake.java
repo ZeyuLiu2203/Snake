@@ -16,21 +16,20 @@ public class Snake implements Iterable<Node>{
 	}
 	
 	public Node move(Direction d){
-		if(d.directionCode() == 0){
-			body.addFirst(new Node(getHead().getX(),getHead().getY()+1));
-		}
-		else if(d.directionCode() == 1){
-			body.addFirst(new Node(getHead().getX()+1,getHead().getY()));
-		}
-		else if(d.directionCode() == 2){
+		if(d == Direction.UP){
 			body.addFirst(new Node(getHead().getX(),getHead().getY()-1));
 		}
-		else if(d.directionCode() == 3){
+		else if(d == Direction.RIGHT){
+			body.addFirst(new Node(getHead().getX()+1,getHead().getY()));
+		}
+		else if(d == Direction.DOWN){
+			body.addFirst(new Node(getHead().getX(),getHead().getY()+1));
+		}
+		else if(d == Direction.LEFT){
 			body.addFirst(new Node(getHead().getX()-1,getHead().getY()));
 		}
-		Node n =  body.getLast();
-		body.removeLast();
-		return n;
+		
+		return body.pollLast();
 		
 	}
 	public Node getHead(){
